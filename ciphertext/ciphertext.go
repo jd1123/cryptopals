@@ -3,7 +3,7 @@ package ciphertext
 import (
 	"encoding/base64"
 
-	"github.com/jd1123/cryptopals/ecb"
+	"github.com/jd1123/cryptopals/aes"
 	"github.com/jd1123/cryptopals/xor"
 )
 
@@ -45,6 +45,20 @@ func (c *Ciphertext) DetermineKeyLength() {
 	c.ChangeBlockSize(blockSize)
 }
 
+func (c *Ciphertext) DecryptCBC(key, iv []byte) []byte {
+	c.ChangeBlockSize(16)
+	numBlocks := len(c.blocks)
+	pt := make([][]byte, numBlocks)
+	for i := range c.blocks {
+		if i == 0 {
+			pt[i] = xor.XOR1(aes.ECBDecrypt(c.blocks[i], key), iv)
+		} else {
+			pt[i] = xor.XOR1(aes.ECBDecrypt(c.blocks[i], key), c.blocks[i-1])
+		}
+	}
+	return assembleBlocks(pt)
+}
+
 func (c *Ciphertext) BreakVigenere() []byte {
 	c.DetermineKeyLength()
 	key := make([]byte, c.blockSize)
@@ -59,7 +73,20 @@ func (c *Ciphertext) DecryptECB(key []byte) []byte {
 	c.ChangeBlockSize(16)
 	pt := make([]byte, 0)
 	for i := range c.blocks {
-		pt = append(pt, ecb.ECBDecrypt(c.blocks[i], key)...)
+		pt = append(pt, aes.ECBDecrypt(c.blocks[i], key)...)
 	}
 	return pt
+}
+
+func (c *Ciphertext) CheckRepeatedBlocks(blockSize int) int {
+	c.ChangeBlockSize(blockSize)
+	count := 0
+	for i := 0; i < len(c.blocks)-1; i++ {
+		for j := i + 1; j < len(c.blocks); j++ {
+			if blocksEqual(c.blocks[i], c.blocks[j]) {
+				count++
+			}
+		}
+	}
+	return count
 }

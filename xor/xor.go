@@ -13,6 +13,17 @@ func XOR(b1, b2 []byte) ([]byte, error) {
 	return b3, nil
 }
 
+func XOR1(b1, b2 []byte) []byte {
+	if len(b1) != len(b2) {
+		return nil
+	}
+	b3 := make([]byte, len(b1))
+	for i := 0; i < len(b1); i++ {
+		b3[i] = b1[i] ^ b2[i]
+	}
+	return b3
+}
+
 func XORSingleChar(byteSlice []byte, b byte) []byte {
 	if len(byteSlice) <= 0 {
 		return nil

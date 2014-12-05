@@ -9,10 +9,9 @@ import (
 )
 
 func main() {
-	f, _ := os.Open("7.txt")
+	f, _ := os.Open("data/7.txt")
 	c, _ := ioutil.ReadAll(f)
 	ct := ciphertext.NewCiphertextFromBase64(c)
 	pt := ct.DecryptECB([]byte("YELLOW SUBMARINE"))
 	fmt.Println(string(pt))
-
 }

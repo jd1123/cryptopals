@@ -1,4 +1,4 @@
-package ecb
+package aes
 
 import "crypto/aes"
 
