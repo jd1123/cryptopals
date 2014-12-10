@@ -1,7 +1,8 @@
-package ciphertext
+package text
 
 import (
 	"encoding/base64"
+	"fmt"
 
 	"github.com/jd1123/cryptopals/aes"
 	"github.com/jd1123/cryptopals/xor"
@@ -11,6 +12,10 @@ type Ciphertext struct {
 	ciphertext []byte
 	blockSize  int
 	blocks     [][]byte
+}
+
+func (c *Ciphertext) GetCt() []byte {
+	return c.ciphertext
 }
 
 func NewCiphertextFromBase64(data []byte) Ciphertext {
@@ -42,6 +47,8 @@ func (c *Ciphertext) DecodeWithRepeatingKey(key []byte) string {
 
 func (c *Ciphertext) DetermineKeyLength() {
 	blockSize := fullKeyLengthTest(*c, 2, 40)
+	fmt.Println("score 29", keyLengthTest(*c, 29))
+	fmt.Println("score 2", keyLengthTest(*c, 2))
 	c.ChangeBlockSize(blockSize)
 }
 

@@ -1,8 +1,6 @@
-package ciphertext
+package text
 
 import (
-	"fmt"
-
 	"github.com/jd1123/cryptopals/freq"
 	"github.com/jd1123/cryptopals/xor"
 )
@@ -23,7 +21,6 @@ func breakBlocks(byteSlice []byte, blockSize int) [][]byte {
 	for i := 0; i < blockCount; i++ {
 		result[i] = byteSlice[i*blockSize : (i+1)*blockSize]
 		if excess && i == blockCount-1 {
-			fmt.Println("Excess!!")
 			result[i+1] = make([]byte, blockSize)
 			//result[i+1][:mod] = byteSlice[blockSize*(i+1):]
 			for j := 0; j < blockSize; j++ {
@@ -73,7 +70,7 @@ func keyLengthTest(c Ciphertext, keyLength int) float64 {
 	}
 	blocks := breakBlocks(c.ciphertext, keyLength)
 	scores := 0.0
-	for i := 0; i < 10; i++ {
+	for i := 0; i < 11; i++ {
 		scores += 0.1 * float64(xor.HammingDistance(blocks[i], blocks[i+1])) / float64(keyLength)
 	}
 	return scores

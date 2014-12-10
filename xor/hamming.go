@@ -27,3 +27,13 @@ func HammingUnequal(longerSlice, shorterSlice []byte) int {
 	sliceToCompute := longerSlice[:len(shorterSlice)]
 	return HammingDistance(sliceToCompute, shorterSlice)
 }
+
+func countBits(b byte) int {
+	bits := 0
+	for i := 0; i < 8; i++ {
+		if b>>uint8(i)&1 == 1 {
+			bits++
+		}
+	}
+	return bits
+}

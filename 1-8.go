@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/jd1123/cryptopals/ciphertext"
+	"github.com/jd1123/cryptopals/text"
 )
 
 const AES128_BLOCK_SIZE = 16
@@ -18,7 +18,7 @@ func main() {
 	b, _ := ioutil.ReadAll(f)
 	lines := strings.Split(string(b), "\n")
 	for i := 0; i < len(lines); i++ {
-		c := ciphertext.NewCiphertextFromBase64([]byte(lines[i]))
+		c := text.NewCiphertextFromBase64([]byte(lines[i]))
 		n := c.CheckRepeatedBlocks(AES128_BLOCK_SIZE)
 		if count < n {
 			count = n

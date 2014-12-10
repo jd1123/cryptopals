@@ -5,15 +5,19 @@ import (
 	"io/ioutil"
 	"os"
 
-	"github.com/jd1123/cryptopals/ciphertext"
+	"github.com/jd1123/cryptopals/text"
 	"github.com/jd1123/cryptopals/xor"
 )
 
 func main() {
-	f, _ := os.Open("repeatingkey.txt")
+	f, err := os.Open("data/repeatingkey.txt")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 	c, _ := ioutil.ReadAll(f)
-	ct := ciphertext.NewCiphertextFromBase64(c)
+	ct := text.NewCiphertextFromBase64(c)
 	key := ct.BreakVigenere()
 	fmt.Println(string(xor.XORRepeatingKey(ct.GetCiphertext(), key)))
-	fmt.Println("Key: ", string(key))
+	fmt.Println("Key: ", key)
 }

@@ -1,4 +1,4 @@
-package ciphertext
+package text
 
 import (
 	"fmt"
