@@ -27,7 +27,7 @@ func NewCiphertext(data []byte, blockSize int) Ciphertext {
 	if blockSize <= 0 {
 		return Ciphertext{ciphertext: data, blockSize: 0, blocks: nil}
 	} else {
-		blocks := breakBlocks(data, blockSize)
+		blocks := BreakBlocks(data, blockSize)
 		return Ciphertext{ciphertext: data, blockSize: blockSize, blocks: blocks}
 	}
 }
@@ -37,7 +37,7 @@ func (c Ciphertext) GetCiphertext() []byte {
 }
 
 func (c *Ciphertext) ChangeBlockSize(blockSize int) {
-	c.blocks = breakBlocks(c.ciphertext, blockSize)
+	c.blocks = BreakBlocks(c.ciphertext, blockSize)
 	c.blockSize = blockSize
 }
 
@@ -63,13 +63,13 @@ func (c *Ciphertext) DecryptCBC(key, iv []byte) []byte {
 			pt[i] = xor.XOR1(aes.ECBDecrypt(c.blocks[i], key), c.blocks[i-1])
 		}
 	}
-	return assembleBlocks(pt)
+	return AssembleBlocks(pt)
 }
 
 func (c *Ciphertext) BreakVigenere() []byte {
 	c.DetermineKeyLength()
 	key := make([]byte, c.blockSize)
-	tBlocks := transposeBlocks(c.blocks)
+	tBlocks := TransposeBlocks(c.blocks)
 	for i := range tBlocks {
 		key[i] = breakSingleKey(tBlocks[i])
 	}
@@ -90,7 +90,7 @@ func (c *Ciphertext) CheckRepeatedBlocks(blockSize int) int {
 	count := 0
 	for i := 0; i < len(c.blocks)-1; i++ {
 		for j := i + 1; j < len(c.blocks); j++ {
-			if blocksEqual(c.blocks[i], c.blocks[j]) {
+			if BlocksEqual(c.blocks[i], c.blocks[j]) {
 				count++
 			}
 		}

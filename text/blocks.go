@@ -6,7 +6,7 @@ import (
 )
 
 // I think this is horribly innefficient
-func breakBlocks(byteSlice []byte, blockSize int) [][]byte {
+func BreakBlocks(byteSlice []byte, blockSize int) [][]byte {
 	excess := false
 	add := 0
 	mod := len(byteSlice) % blockSize
@@ -36,7 +36,7 @@ func breakBlocks(byteSlice []byte, blockSize int) [][]byte {
 	return result
 }
 
-func transposeBlocks(byteSlices [][]byte) [][]byte {
+func TransposeBlocks(byteSlices [][]byte) [][]byte {
 	numBlocks := len(byteSlices)
 	blockSize := len(byteSlices[0])
 	result := make([][]byte, blockSize)
@@ -68,7 +68,7 @@ func keyLengthTest(c Ciphertext, keyLength int) float64 {
 	if keyLength > len(c.ciphertext) {
 		return 0.0
 	}
-	blocks := breakBlocks(c.ciphertext, keyLength)
+	blocks := BreakBlocks(c.ciphertext, keyLength)
 	scores := 0.0
 	for i := 0; i < 11; i++ {
 		scores += 0.1 * float64(xor.HammingDistance(blocks[i], blocks[i+1])) / float64(keyLength)
@@ -90,7 +90,7 @@ func fullKeyLengthTest(c Ciphertext, startLen, endLen int) int {
 	return bestIx
 }
 
-func blocksEqual(b1, b2 []byte) bool {
+func BlocksEqual(b1, b2 []byte) bool {
 	if len(b1) != len(b2) {
 		return false
 	} else {
@@ -103,7 +103,7 @@ func blocksEqual(b1, b2 []byte) bool {
 	return true
 }
 
-func assembleBlocks(b [][]byte) []byte {
+func AssembleBlocks(b [][]byte) []byte {
 	numBlocks := len(b)
 	blockSize := len(b[0])
 	assembled := make([]byte, numBlocks*blockSize)
