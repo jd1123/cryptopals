@@ -12,11 +12,8 @@ import (
 	"github.com/jd1123/cryptopals/text"
 )
 
-var unknownBuff []byte = []byte("this is an unknown string and I will decrypt it using ECB byte at a time attack")
-
 func main() {
 	key := aes.RandomKey()
-	key = []byte("yellow submarine")
 	pt, err := base64.StdEncoding.DecodeString("Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkgaGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBqdXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUgYnkK")
 	if err != nil {
 		fmt.Println(err)
@@ -56,7 +53,6 @@ func ByteAtATimeECB(pt, key []byte) []byte {
 		aLen := len(attackBytes)
 		dByte := dict[string(ct[0:aLen+1+len(decrypted)])]
 		decrypted = append(decrypted, dByte)
-		//fmt.Println("i:", i, "dByte:", dByte, "aLen:", aLen, "dLen:", dLen, "len(newBytes):", len(newBytes))
 	}
 	fmt.Println(string(decrypted))
 
