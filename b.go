@@ -9,7 +9,7 @@ import (
 	"code.google.com/p/go.crypto/twofish"
 )
 
-func main() {
+func b() {
 	key := []byte("YELLOW SUBMARINE")
 	c, _ := twofish.NewCipher(key)
 	a, _ := cipher.NewGCM(c)

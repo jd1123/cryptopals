@@ -1,4 +1,4 @@
-package main
+package exercises
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 
 var stanza = []byte("Burning 'em, if you ain't quick and nimble I go crazy when I hear a cymbal")
 
-func main() {
+func Ex1_5() {
 	key := []byte("ICE")
 	fmt.Printf("%x\n", xor.XORRepeatingKey(stanza, key))
 }

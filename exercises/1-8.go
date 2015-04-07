@@ -1,4 +1,4 @@
-package main
+package exercises
 
 import (
 	"fmt"
@@ -11,7 +11,7 @@ import (
 
 const AES128_BLOCK_SIZE = 16
 
-func main() {
+func Ex1_8() {
 	count := 0
 	best := 0
 	f, _ := os.Open("data/8.txt")

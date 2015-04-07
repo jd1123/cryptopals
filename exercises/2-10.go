@@ -1,4 +1,4 @@
-package main
+package exercises
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"github.com/jd1123/cryptopals/text"
 )
 
-func main() {
+func Ex2_10() {
 	key := []byte("YELLOW SUBMARINE")
 	iv := make([]byte, 16)
 	f, _ := os.Open("data/10.txt")

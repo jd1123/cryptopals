@@ -1,4 +1,4 @@
-package main
+package exercises
 
 import (
 	"encoding/hex"
@@ -39,7 +39,7 @@ var FREQ = map[byte]float64{
 	'Z': .0007,
 }
 
-func main() {
+func Ex1_3() {
 	h1, _ := hex.DecodeString("1b37373331363f78151b7f2b783431333d78397828372d363c78373e783a393b3736")
 	stuff := make([][]byte, 256)
 	key_byte := uint8(0)

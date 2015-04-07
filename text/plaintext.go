@@ -39,9 +39,9 @@ func (p *Plaintext) EncryptCBC(key, iv []byte) []byte {
 	ct := make([][]byte, len(p.blocks))
 	for i := range p.blocks {
 		if i == 0 {
-			ct[i] = aes.ECBEncrypt(xor.XOR1(p.blocks[i], iv), key)
+			ct[i] = aes.EncryptECB(xor.XOR1(p.blocks[i], iv), key)
 		} else {
-			ct[i] = aes.ECBEncrypt(xor.XOR1(p.blocks[i], ct[i-1]), key)
+			ct[i] = aes.EncryptECB(xor.XOR1(p.blocks[i], ct[i-1]), key)
 		}
 	}
 	return AssembleBlocks(ct)
@@ -51,7 +51,7 @@ func (p *Plaintext) EncryptECB(key []byte) []byte {
 	p.SetBlockSize(16)
 	ct := make([]byte, 0)
 	for i := range p.blocks {
-		ct = append(ct, aes.ECBEncrypt(p.blocks[i], key)...)
+		ct = append(ct, aes.EncryptECB(p.blocks[i], key)...)
 	}
 	return ct
 }

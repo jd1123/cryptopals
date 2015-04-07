@@ -1,4 +1,4 @@
-package main
+package exercises
 
 import (
 	"fmt"
@@ -9,7 +9,7 @@ import (
 	"github.com/jd1123/cryptopals/xor"
 )
 
-func main() {
+func Ex1_6() {
 	f, err := os.Open("data/repeatingkey.txt")
 	if err != nil {
 		fmt.Println(err)

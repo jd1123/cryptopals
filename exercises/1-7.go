@@ -1,4 +1,4 @@
-package main
+package exercises
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	"github.com/jd1123/cryptopals/text"
 )
 
-func main() {
+func Ex1_7() {
 	f, _ := os.Open("data/7.txt")
 	c, _ := ioutil.ReadAll(f)
 	ct := text.NewCiphertextFromBase64(c)

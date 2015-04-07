@@ -1,18 +1,15 @@
-package main
+package exercises
 
 import (
-	"bytes"
-	"crypto/rand"
 	"encoding/base64"
 	"fmt"
-	"io"
 	"os"
 
 	"github.com/jd1123/cryptopals/aes"
 	"github.com/jd1123/cryptopals/text"
 )
 
-func main() {
+func Ex2_12() {
 	key := aes.RandomKey()
 	pt, err := base64.StdEncoding.DecodeString("Um9sbGluJyBpbiBteSA1LjAKV2l0aCBteSByYWctdG9wIGRvd24gc28gbXkgaGFpciBjYW4gYmxvdwpUaGUgZ2lybGllcyBvbiBzdGFuZGJ5IHdhdmluZyBqdXN0IHRvIHNheSBoaQpEaWQgeW91IHN0b3A/IE5vLCBJIGp1c3QgZHJvdmUgYnkK")
 	if err != nil {
@@ -87,38 +84,4 @@ func DetermineBlockLength(pt, key []byte) int {
 		}
 	}
 	return ctr
-}
-
-func EncryptionOracle(pt []byte) []byte {
-	rn := aes.RandInt(2)
-	numPre := aes.RandInt(5) + 5
-	numPost := aes.RandInt(5) + 5
-	pre := make([]byte, numPre)
-	post := make([]byte, numPost)
-
-	if _, err := io.ReadFull(rand.Reader, pre); err != nil {
-		fmt.Println(err)
-	}
-	if _, err := io.ReadFull(rand.Reader, post); err != nil {
-		fmt.Println(err)
-	}
-	pt = append(pt, post...)
-	pt = append(pre, pt...)
-	key := aes.RandomKey()
-	plainText := text.NewPlaintext(pt)
-
-	if rn == 0 {
-		return plainText.EncryptCBC(key, nil)
-	} else {
-		return plainText.EncryptECB(key)
-	}
-}
-
-func DetectECB(ct []byte) bool {
-	for i := 0; i < 34; i++ {
-		if bytes.Equal(ct[i:i+16], ct[i+16:i+32]) {
-			return true
-		}
-	}
-	return false
 }

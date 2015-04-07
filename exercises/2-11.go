@@ -1,4 +1,4 @@
-package main
+package exercises
 
 import (
 	"bytes"
@@ -58,7 +58,7 @@ func DetectECB(ct []byte) bool {
 	return false
 }
 
-func main() {
+func Ex2_11() {
 	secret := []byte("yellow submarineyellow submarineyellow submarineyellow submarineyellow submarineyellow submarineyellow submarine")
 	ct := EncryptionOracle(secret)
 	fmt.Println(DetectECB(ct))

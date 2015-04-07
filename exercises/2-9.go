@@ -1,4 +1,4 @@
-package main
+package exercises
 
 import (
 	"fmt"
@@ -6,7 +6,7 @@ import (
 	"github.com/jd1123/cryptopals/padding"
 )
 
-func main() {
+func Ex2_9() {
 	pt := []byte("Yellow submarine")
 	fmt.Println("Len of pt:", len(pt))
 	fmt.Println(padding.PKCS7(pt, 16))
