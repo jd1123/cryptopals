@@ -1,9 +1,14 @@
 package aes
 
-import "crypto/aes"
+import (
+	"crypto/aes"
+
+	"github.com/jd1123/cryptopals/padding"
+)
 
 func ECBEncrypt(pt, key []byte) []byte {
 	c, err := aes.NewCipher(key)
+	pt = padding.PKCS7(pt, 16)
 	if err != nil {
 		panic(err)
 	}

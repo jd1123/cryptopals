@@ -2,6 +2,7 @@ package text
 
 import (
 	"crypto/rand"
+	"fmt"
 	"io"
 
 	"github.com/jd1123/cryptopals/aes"
@@ -24,6 +25,10 @@ func (p *Plaintext) SetBlockSize(blockSize int) {
 	p.blockSize = blockSize
 }
 
+func (p *Plaintext) ShowPt() {
+	fmt.Println(p.plaintext)
+}
+
 func (p *Plaintext) EncryptCBC(key, iv []byte) []byte {
 	p.SetBlockSize(16)
 	if len(iv) != 16 {
@@ -43,7 +48,7 @@ func (p *Plaintext) EncryptCBC(key, iv []byte) []byte {
 }
 
 func (p *Plaintext) EncryptECB(key []byte) []byte {
-	p.ChangeBlockSize(16)
+	p.SetBlockSize(16)
 	ct := make([]byte, 0)
 	for i := range p.blocks {
 		ct = append(ct, aes.ECBEncrypt(p.blocks[i], key)...)
