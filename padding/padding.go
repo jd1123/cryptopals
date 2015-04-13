@@ -1,6 +1,6 @@
 package padding
 
-import "fmt"
+import "errors"
 
 func PKCS7(b []byte, blockSize int) []byte {
 	l := len(b)
@@ -17,12 +17,17 @@ func PKCS7(b []byte, blockSize int) []byte {
 	return b
 }
 
-func ValidatePadding(b []byte, blockSize int) []byte {
+func ValidatePKCS7(b []byte, blockSize int) ([]byte, error) {
 	bLen := len(b)
-	padByte := b[bLen]
-	if (int(padByte) > blockSize) && (bLen%blockSize != 0) {
-		fmt.Println("Invalid padding")
-		return b
+	padByte := b[bLen-1]
+	if padByte >= byte(blockSize) {
+		return nil, errors.New("Invalid padding")
+	} else {
+		for i := 1; i < int(padByte); i++ {
+			if b[bLen-i] != padByte {
+				return nil, errors.New("Invalid padding")
+			}
+		}
 	}
-	return nil
+	return b[:bLen-int(padByte)], nil
 }
