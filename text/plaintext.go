@@ -29,7 +29,7 @@ func (p *Plaintext) ShowPt() {
 	fmt.Println(p.plaintext)
 }
 
-func (p *Plaintext) EncryptCBC(key, iv []byte) []byte {
+func (p *Plaintext) EncryptCBC(key, iv []byte) ([]byte, []byte) {
 	p.SetBlockSize(16)
 	if len(iv) != 16 {
 		iv = make([]byte, 16)
@@ -44,7 +44,7 @@ func (p *Plaintext) EncryptCBC(key, iv []byte) []byte {
 			ct[i] = aes.EncryptECB(xor.XOR1(p.blocks[i], ct[i-1]), key)
 		}
 	}
-	return AssembleBlocks(ct)
+	return append(iv, AssembleBlocks(ct)...), iv
 }
 
 func (p *Plaintext) EncryptECB(key []byte) []byte {

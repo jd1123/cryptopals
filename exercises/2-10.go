@@ -13,7 +13,7 @@ func Ex2_10() {
 	iv := make([]byte, 16)
 	f, _ := os.Open("data/10.txt")
 	buff, _ := ioutil.ReadAll(f)
-	ct := text.NewCiphertextFromBase64(buff)
+	ct, _ := text.NewCiphertextFromBase64(buff)
 	pt := ct.DecryptCBC(key, iv)
 	fmt.Println(string(pt))
 }

@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/jd1123/cryptopals/aes"
+	"github.com/jd1123/cryptopals/padding"
 	"github.com/jd1123/cryptopals/xor"
 )
 
@@ -18,9 +19,12 @@ func (c *Ciphertext) GetCt() []byte {
 	return c.ciphertext
 }
 
-func NewCiphertextFromBase64(data []byte) Ciphertext {
-	decoded, _ := base64.StdEncoding.DecodeString(string(data))
-	return Ciphertext{ciphertext: decoded, blockSize: 0, blocks: nil}
+func NewCiphertextFromBase64(data []byte) (Ciphertext, error) {
+	decoded, err := base64.StdEncoding.DecodeString(string(data))
+	if err != nil {
+		return Ciphertext{}, err
+	}
+	return Ciphertext{ciphertext: decoded, blockSize: 0, blocks: nil}, nil
 }
 
 func NewCiphertext(data []byte, blockSize int) Ciphertext {
@@ -54,6 +58,9 @@ func (c *Ciphertext) DetermineKeyLength() {
 
 func (c *Ciphertext) DecryptCBC(key, iv []byte) []byte {
 	c.ChangeBlockSize(16)
+	iv = c.blocks[0]
+	c.ciphertext = c.ciphertext[16:]
+	c.ChangeBlockSize(16)
 	numBlocks := len(c.blocks)
 	pt := make([][]byte, numBlocks)
 	for i := range c.blocks {
@@ -63,7 +70,8 @@ func (c *Ciphertext) DecryptCBC(key, iv []byte) []byte {
 			pt[i] = xor.XOR1(aes.ECBDecrypt(c.blocks[i], key), c.blocks[i-1])
 		}
 	}
-	return AssembleBlocks(pt)
+	result, _ := padding.ValidatePKCS7(AssembleBlocks(pt), 16)
+	return result
 }
 
 func (c *Ciphertext) BreakVigenere() []byte {

@@ -16,7 +16,7 @@ func Ex1_6() {
 		os.Exit(1)
 	}
 	c, _ := ioutil.ReadAll(f)
-	ct := text.NewCiphertextFromBase64(c)
+	ct, _ := text.NewCiphertextFromBase64(c)
 	key := ct.BreakVigenere()
 	fmt.Println(string(xor.XORRepeatingKey(ct.GetCiphertext(), key)))
 	fmt.Println("Key: ", key)

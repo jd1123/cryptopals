@@ -28,7 +28,8 @@ func EncryptionOracle(pt []byte) []byte {
 	plainText := text.NewPlaintext(pt)
 
 	if rn == 0 {
-		return plainText.EncryptCBC(key, nil)
+		ct, _ := plainText.EncryptCBC(key, nil)
+		return ct
 	} else {
 		return plainText.EncryptECB(key)
 	}

@@ -18,7 +18,7 @@ func Ex1_8() {
 	b, _ := ioutil.ReadAll(f)
 	lines := strings.Split(string(b), "\n")
 	for i := 0; i < len(lines); i++ {
-		c := text.NewCiphertextFromBase64([]byte(lines[i]))
+		c, _ := text.NewCiphertextFromBase64([]byte(lines[i]))
 		n := c.CheckRepeatedBlocks(AES128_BLOCK_SIZE)
 		if count < n {
 			count = n
