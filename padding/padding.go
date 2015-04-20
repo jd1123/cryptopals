@@ -20,13 +20,9 @@ func PKCS7(b []byte, blockSize int) []byte {
 func ValidatePKCS7(b []byte, blockSize int) ([]byte, error) {
 	bLen := len(b)
 	padByte := b[bLen-1]
-	if padByte >= byte(blockSize) {
-		return nil, errors.New("Invalid padding")
-	} else {
-		for i := 1; i < int(padByte); i++ {
-			if b[bLen-i] != padByte {
-				return nil, errors.New("Invalid padding")
-			}
+	for i := 1; i < int(padByte); i++ {
+		if b[bLen-i] != padByte {
+			return nil, errors.New("Invalid padding")
 		}
 	}
 	return b[:bLen-int(padByte)], nil

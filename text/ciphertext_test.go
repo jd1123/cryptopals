@@ -22,9 +22,9 @@ func TestCipher(t *testing.T) {
 func TestRepeatingKey(t *testing.T) {
 	f, _ := os.Open("../repeatingkey.txt")
 	b, _ := ioutil.ReadAll(f)
-	c := NewCiphertextFromBase64(b)
+	c, _ := NewCiphertextFromBase64(b)
 	c.DetermineKeyLength()
-	fmt.Println(string(c.BreakVigenere()))
+	//	fmt.Println(string(c.BreakVigenere()))
 }
 
 func TestAlphabet(t *testing.T) {

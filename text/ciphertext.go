@@ -56,7 +56,7 @@ func (c *Ciphertext) DetermineKeyLength() {
 	c.ChangeBlockSize(blockSize)
 }
 
-func (c *Ciphertext) DecryptCBC(key, iv []byte) []byte {
+func (c *Ciphertext) DecryptCBC(key, iv []byte) ([]byte, error) {
 	c.ChangeBlockSize(16)
 	iv = c.blocks[0]
 	c.ciphertext = c.ciphertext[16:]
@@ -70,8 +70,11 @@ func (c *Ciphertext) DecryptCBC(key, iv []byte) []byte {
 			pt[i] = xor.XOR1(aes.ECBDecrypt(c.blocks[i], key), c.blocks[i-1])
 		}
 	}
-	result, _ := padding.ValidatePKCS7(AssembleBlocks(pt), 16)
-	return result
+	result, err := padding.ValidatePKCS7(AssembleBlocks(pt), 16)
+	if err != nil {
+		return nil, err
+	}
+	return result, nil
 }
 
 func (c *Ciphertext) BreakVigenere() []byte {

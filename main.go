@@ -24,6 +24,7 @@ var ex = map[string]Exercise{
 	"2-13": exercises.Ex2_13,
 	"2-15": exercises.Ex2_15,
 	"2-16": exercises.Ex2_16,
+	"3-17": exercises.Ex3_17,
 }
 
 func main() {

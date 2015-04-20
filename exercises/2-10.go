@@ -14,6 +14,6 @@ func Ex2_10() {
 	f, _ := os.Open("data/10.txt")
 	buff, _ := ioutil.ReadAll(f)
 	ct, _ := text.NewCiphertextFromBase64(buff)
-	pt := ct.DecryptCBC(key, iv)
+	pt, _ := ct.DecryptCBC(key, iv)
 	fmt.Println(string(pt))
 }

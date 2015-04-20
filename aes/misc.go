@@ -21,6 +21,12 @@ func RandInt(n int) int {
 	return rn
 }
 
+func RandIntR(b, e int) int {
+	r, _ := rand.Int(rand.Reader, big.NewInt(int64(e-b)))
+	rn := int(r.Int64()) + b
+	return rn
+}
+
 func DetectECB(ct []byte) bool {
 	for i := 0; i < 34; i++ {
 		if bytes.Equal(ct[i:i+16], ct[i+16:i+32]) {

@@ -69,7 +69,7 @@ func Repl() {
 					if err != nil {
 						fmt.Println(err)
 					}
-					pt := ct.DecryptCBC(key, nil)
+					pt, _ := ct.DecryptCBC(key, nil)
 					fmt.Println(string(pt))
 				}
 			}
@@ -83,6 +83,10 @@ func Repl() {
 					bs := base64.StdEncoding.EncodeToString(res)
 					fmt.Println(bs)
 				}
+			}
+		default:
+			{
+				fmt.Println("Unrecognized command")
 			}
 		}
 	}
@@ -103,7 +107,7 @@ func attack(ct []byte, desiredString string, block, position int) ([]byte, error
 			pos := (block-1)*16 + position + i
 			ctCopy[pos] = ct[pos] ^ byte(j)
 			ciphertext := text.NewCiphertext(ctCopy, 16)
-			pt := ciphertext.DecryptCBC(key, nil)
+			pt, _ := ciphertext.DecryptCBC(key, nil)
 			if pt[pos] == byte(desiredString[i]) {
 				fmt.Println("Bingo")
 				fmt.Println("ct:", ct[pos+16], "ctCopy:", ctCopy[pos+16])
@@ -139,7 +143,7 @@ func PrepareString(input string) ([]byte, []byte) {
 
 func CheckString(ct, iv []byte) bool {
 	ciphertext := text.NewCiphertext(ct, 16)
-	pt := ciphertext.DecryptCBC(key, iv)
+	pt, _ := ciphertext.DecryptCBC(key, iv)
 	fmt.Println(pt)
 	spt := string(pt)
 	splitString := strings.Split(spt, ";")
